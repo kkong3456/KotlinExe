@@ -76,7 +76,7 @@ println("//22---------------------------------------------------")
 class Calculator3 {
     var result: Int = 0
 
-    fun calculate(operators:List<Char>,inputNumbers:List<Int>){
+    fun calculate(operators:List<Char>,inputNumbers:List<I:q!nt>){
         operators.forEachIndexed { index, operator ->
             _calculate(operator,inputNumbers[index])
         }
