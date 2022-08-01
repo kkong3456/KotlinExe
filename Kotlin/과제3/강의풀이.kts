@@ -1,23 +1,24 @@
 open class Warrior constructor(hp: Int, var power: Int, var armor: Int) {
     var killCount: Int = 0
     var isAlive: Boolean = true
-        get(){
-            if(field==true) println("Warrior는 살아있다 체력 : ${this.hp}")
+        get() {
+            if (field == true) println("Warrior는 살아있다 체력 : ${this.hp}")
             else println("Warrior는 죽었다")
             return field
         }
-    var hp:Int=100
-        set(value){
-            if(value<=0){
-                field=0
-                this.isAlive=false
-            }else field=value
+    var hp: Int = 100
+        set(value) {
+            if (value <= 0) {
+                field = 0
+                this.isAlive = false
+            } else field = value
         }
 
-    init{
-        this.hp=hp
+    init {
+        this.hp = hp
     }
-    fun attack(monster: Monster) {
+
+    open fun attack(monster: Monster) {
         println("Warrior가 공격을 했습니다.")
         if (!monster.defense(this)) {
             //Monster dead
@@ -33,10 +34,41 @@ open class Warrior constructor(hp: Int, var power: Int, var armor: Int) {
         return this.isAlive
     }
 
-//    fun levelUp(): Knight {}
+    fun levelUp(): Knight? {
+        if (this.killCount >= 5) {
+            println("Knight로 레벨업!!!")
+            return Knight(this)
+        } else {
+            println("Knight로 레벨업 불가!!! 현재 킬카운드는 ${this.killCount}")
+            return null
+        }
+    }
 }
 
-//class Knight : Warrior {}
+class Knight constructor(warrior: Warrior) : Warrior(warrior.hp, warrior.power, warrior.armor) {
+    var energy: Int = 0
+
+    init {
+        this.hp = warrior.hp
+        this.power = warrior.power + 2
+        this.armor = warrior.armor + 1
+    }
+
+    override fun attack(monster: Monster) {
+        super.attack(monster)
+        this.energy += 1
+    }
+
+    fun hardAttack(monster: Monster) {
+        if (this.isAlive && this.energy >= 3) {
+            monster.hp -= this.power + 30
+            this.power -= 3
+        } else {
+            println("에너지가 부족합니다. 현재 에너지는 : ${this.energy}")
+        }
+    }
+}
+
 class Monster constructor(hp: Int, var power: Int, var armor: Int) {
     var isAlive: Boolean = true
         get() {
@@ -69,9 +101,18 @@ class Monster constructor(hp: Int, var power: Int, var armor: Int) {
     }
 }
 
-val warrior=Warrior(100,10,10)
-val monster=Monster(20,5,1)
+val warrior = Warrior(100, 10, 10)
 
-warrior.attack(monster)
-warrior.attack(monster)
-warrior.attack(monster)
+loop@ while (warrior.killCount < 10) {
+    val monster = Monster(10, 5, 1)
+    while (monster.isAlive) {
+        warrior.attack(monster)
+        monster.bite(warrior)
+
+        if (!warrior.isAlive) {
+            break@loop
+        }
+    }
+}
+
+val knight: Knight? = warrior.levelUp()
