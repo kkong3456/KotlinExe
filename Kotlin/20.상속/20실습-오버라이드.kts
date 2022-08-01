@@ -16,7 +16,7 @@ class Sum{
 val sum=Sum()
 println("sum.sum() : ${sum.sum()}")
 println("sum.sum(10) : ${sum.sum(10)}")
-println("sum.sum('xxx') : ${sum.sum("XXX")}")
+println("sum.sum('26스코프함수') : ${sum.sum("XXX")}")
 println("sum.sum(10,10) : ${sum.sum(10,10)}")
 
 //오버라이딩

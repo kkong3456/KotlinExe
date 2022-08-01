@@ -24,7 +24,7 @@ when(number4){
 }
 
 when(number4){
-    5->println("xxx")
+    5->println("26스코프함수")
     6->println("YYY")
     else->println("kkk")
 }
